@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}PulseTrack | Kept{% endblock %}
+{% block content %}
+<section class="clock-page">
+  <article class="card reveal clock-hero">
+    <div class="clock-hero-copy">
+      <p class="eyebrow">Kept</p>
+      <h2>Clock In / Clock Out</h2>
+      <p class="lead">Fast, clean attendance logging for employees on any screen size.</p>
+    </div>
+
+    <form method="post" class="form-stack clock-form">
+      {% csrf_token %}
+      <label for="employee_id">Employee ID</label>
+      <input id="employee_id" name="employee_id" type="text" placeholder="EMP-001" autocomplete="off" inputmode="text" autocapitalize="characters" required>
+      <button class="btn btn-primary clock-submit" type="submit">Submit Attendance</button>
+      <p class="clock-helper">Tip: use the employee ID assigned by HR.</p>
+    </form>
+  </article>
+
+  <article class="card reveal activity-card" style="--delay:120ms">
+    <div class="row-between">
+      <div>
+        <p class="eyebrow">Live Feed</p>
+        <h3>Today Activity</h3>
+      </div>
+      <span class="chip">Updated today</span>
+    </div>
+    <div class="table-wrap attendance-table-wrap">
+      <table class="attendance-table">
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>In</th>
+            <th>Out</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in today_records %}
+            <tr>
+              <td data-label="Employee">{{ r.employee.full_name }} ({{ r.employee.employee_id }})</td>
+              <td data-label="In">{{ r.clock_in|default:'-' }}</td>
+              <td data-label="Out">{{ r.clock_out|default:'-' }}</td>
+              <td data-label="Status"><span class="status-pill status-{{ r.status|lower }}">{{ r.status }}</span></td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="4">No records yet today.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </article>
+</section>
+{% endblock %}

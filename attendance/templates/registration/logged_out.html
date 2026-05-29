@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}PulseTrack | Logged Out{% endblock %}
+{% block content %}
+<section class="card auth-card reveal">
+  <h2>You are logged out</h2>
+  <p class="lead">Your session ended successfully.</p>
+  <a class="btn btn-primary" href="{% url 'login' %}">Login Again</a>
+</section>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}PulseTrack | Login{% endblock %}
+{% block content %}
+<section class="card auth-card reveal">
+  <p class="eyebrow">Secure Access</p>
+  <h2>Sign In</h2>
+  <p class="lead">Use your organization credentials to access dashboards and employee management.</p>
+
+  {% if form.errors %}
+    <div class="flash flash-error" role="alert">
+      Incorrect username or password. Please try again.
+    </div>
+  {% endif %}
+
+  <form method="post" class="form-stack">
+    {% csrf_token %}
+    <label for="id_username">Username</label>
+    {{ form.username }}
+
+    <label for="id_password">Password</label>
+    {{ form.password }}
+
+    <button class="btn btn-primary" type="submit">Login</button>
+    <input type="hidden" name="next" value="{{ next }}">
+  </form>
+</section>
+{% endblock %}

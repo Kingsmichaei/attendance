@@ -1,0 +1,77 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}PulseTrack{% endblock %}</title>
+  <link rel="icon" type="image/png" sizes="96x96" href="/media/favicon-96x96.png">
+  <link rel="icon" href="/media/favicon.ico">
+  <link rel="apple-touch-icon" href="/media/apple-touch-icon.png">
+  <link rel="manifest" href="/media/site.webmanifest">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+  <link rel="icon" type="image/svg+xml" href="/media/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+</head>
+<body>
+  <div class="bg-orb orb-a"></div>
+  <div class="bg-orb orb-b"></div>
+
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="{% url 'attendance:home' %}">
+        <span class="brand-mark"></span>
+        <span>PulseTrack</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-controls="site-nav" aria-expanded="false" data-nav-toggle>
+        <span class="nav-toggle-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+      <nav class="site-nav" id="site-nav" data-nav aria-label="Primary navigation">
+        {% if user.is_authenticated and user.is_staff %}
+          <a href="{% url 'attendance:attendance_page' %}">Kept</a>
+          <a href="{% url 'attendance:attendance_dashboard' %}">Dashboard</a>
+          <a href="{% url 'attendance:employee_list' %}">Employees</a>
+          <a href="{% url 'attendance:leave_list' %}">Leaves</a>
+        {% elif user.is_authenticated %}
+          <a href="{% url 'attendance:portal' %}">Portal</a>
+          <a href="{% url 'attendance:my_attendance' %}">My Attendance</a>
+          <a href="{% url 'attendance:my_leaves' %}">My Leaves</a>
+          <a href="{% url 'attendance:request_leave' %}">Request Leave</a>
+        {% else %}
+          <a href="{% url 'attendance:attendance_page' %}">Kept</a>
+          <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+        {% if user.is_authenticated %}
+          <form method="post" action="{% url 'logout' %}" class="nav-inline-form">
+            {% csrf_token %}
+            <button type="submit" class="nav-link-button">Logout</button>
+          </form>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+  <div class="nav-backdrop" data-nav-backdrop hidden></div>
+
+  <main class="container page-shell">
+    {% if messages %}
+      <section class="flash-stack" aria-live="polite">
+        {% for message in messages %}
+          <article class="flash flash-{{ message.tags|default:'info' }}">{{ message }}</article>
+        {% endfor %}
+      </section>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>

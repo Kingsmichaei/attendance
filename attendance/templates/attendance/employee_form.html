@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}PulseTrack | New Employee{% endblock %}
+{% block content %}
+<section class="card reveal form-card">
+  <p class="eyebrow">Onboarding</p>
+  <h2>Create Employee</h2>
+  <form method="post" class="form-stack">
+    {% csrf_token %}
+    <label for="employee_id">Employee ID</label>
+    <input id="employee_id" name="employee_id" type="text" placeholder="EMP-001" required>
+
+    <label for="full_name">Full Name</label>
+    <input id="full_name" name="full_name" type="text" placeholder="Jane Doe" required>
+
+    <label for="department">Department</label>
+    <input id="department" name="department" type="text" placeholder="Operations" required>
+
+    <label for="role">Role</label>
+    <input id="role" name="role" type="text" placeholder="Analyst" required>
+
+    <label for="password">Temporary Password</label>
+    <input id="password" name="password" type="text" placeholder="Defaults to Employee ID if left blank">
+
+    <div class="row-gap">
+      <button class="btn btn-primary" type="submit">Save Employee</button>
+      <a class="btn btn-soft" href="{% url 'attendance:employee_list' %}">Cancel</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

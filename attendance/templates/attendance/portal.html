@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block title %}PulseTrack | Portal{% endblock %}
+{% block content %}
+<section class="hero card reveal">
+  <p class="eyebrow">Employee Portal</p>
+  <h1>Welcome, {{ employee.full_name }}</h1>
+  <p class="lead">Your personal attendance and leave overview is shown below.</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="{% url 'attendance:my_attendance' %}">My Attendance</a>
+    <a class="btn btn-soft" href="{% url 'attendance:my_leaves' %}">My Leaves</a>
+    <a class="btn btn-soft" href="{% url 'attendance:request_leave' %}">Request Leave</a>
+  </div>
+</section>
+
+<section class="stats-grid reveal" style="--delay:120ms">
+  <article class="stat card">
+    <h3>Today</h3>
+    <p>{{ today }}</p>
+  </article>
+  <article class="stat card">
+    <h3>Today Status</h3>
+    <p>{% if attendance_today %}{{ attendance_today.status }}{% else %}Not marked{% endif %}</p>
+  </article>
+  <article class="stat card">
+    <h3>Pending Leaves</h3>
+    <p>{{ my_pending_leave_count }}</p>
+  </article>
+  <article class="stat card">
+    <h3>Department</h3>
+    <p>{{ employee.department }}</p>
+  </article>
+</section>
+
+<section class="grid two-col" style="margin-top:16px">
+  <article class="card reveal">
+    <div class="row-between">
+      <h3>Recent Attendance</h3>
+      <span class="chip">Self</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Date</th><th>In</th><th>Out</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          {% for record in recent_attendance %}
+            <tr>
+              <td>{{ record.date }}</td>
+              <td>{{ record.clock_in|default:'-' }}</td>
+              <td>{{ record.clock_out|default:'-' }}</td>
+              <td>{{ record.status }}</td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="4">No attendance records yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </article>
+
+  <article class="card reveal" style="--delay:120ms">
+    <div class="row-between">
+      <h3>Recent Leave Requests</h3>
+      <span class="chip">Self</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Type</th><th>Start</th><th>End</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          {% for leave in recent_leaves %}
+            <tr>
+              <td>{{ leave.leave_type }}</td>
+              <td>{{ leave.start_date }}</td>
+              <td>{{ leave.end_date }}</td>
+              <td>{{ leave.status }}</td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="4">No leave requests yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </article>
+</section>
+{% endblock %}

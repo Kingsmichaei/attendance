@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}PulseTrack | My Leaves{% endblock %}
+{% block content %}
+<section class="card reveal">
+  <div class="row-between wrap">
+    <div>
+      <p class="eyebrow">Employee Portal</p>
+      <h2>My Leave Requests</h2>
+    </div>
+    <a class="btn btn-primary" href="{% url 'attendance:request_leave' %}">Request Leave</a>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Type</th><th>Start</th><th>End</th><th>Status</th><th>Reason</th></tr>
+      </thead>
+      <tbody>
+        {% for leave in leaves %}
+          <tr>
+            <td>{{ leave.leave_type }}</td>
+            <td>{{ leave.start_date }}</td>
+            <td>{{ leave.end_date }}</td>
+            <td>{{ leave.status }}</td>
+            <td>{{ leave.reason|default:'-' }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5">No leave requests yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

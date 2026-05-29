@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}PulseTrack | My Attendance{% endblock %}
+{% block content %}
+<section class="card reveal">
+  <div class="row-between wrap">
+    <div>
+      <p class="eyebrow">Employee Portal</p>
+      <h2>My Attendance</h2>
+    </div>
+    <a class="btn btn-soft" href="{% url 'attendance:portal' %}">Back to Portal</a>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Date</th><th>Clock In</th><th>Clock Out</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        {% for record in records %}
+          <tr>
+            <td>{{ record.date }}</td>
+            <td>{{ record.clock_in|default:'-' }}</td>
+            <td>{{ record.clock_out|default:'-' }}</td>
+            <td>{{ record.status }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4">No attendance records found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

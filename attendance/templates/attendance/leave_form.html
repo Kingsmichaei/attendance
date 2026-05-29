@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}PulseTrack | New Leave Request{% endblock %}
+{% block content %}
+<section class="card reveal form-card">
+  <p class="eyebrow">Leave Management</p>
+  <h2>Create Leave Request</h2>
+  <form method="post" class="form-stack">
+    {% csrf_token %}
+
+    <label for="employee_id">Employee ID</label>
+    <input id="employee_id" name="employee_id" type="text" placeholder="EMP-001" required>
+
+    <label for="leave_type">Leave Type</label>
+    <select id="leave_type" name="leave_type">
+      {% for leave_type in leave_types %}
+        <option value="{{ leave_type }}">{{ leave_type }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="start_date">Start Date</label>
+    <input id="start_date" name="start_date" type="date" required>
+
+    <label for="end_date">End Date</label>
+    <input id="end_date" name="end_date" type="date" required>
+
+    <label for="reason">Reason</label>
+    <textarea id="reason" name="reason" rows="4" placeholder="Optional details"></textarea>
+
+    <div class="row-gap">
+      <button class="btn btn-primary" type="submit">Submit Request</button>
+      <a class="btn btn-soft" href="{% url 'attendance:leave_list' %}">Cancel</a>
+    </div>
+  </form>
+</section>
+{% endblock %}
