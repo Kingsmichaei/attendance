@@ -22,11 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 
 
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = 'b1ea$%%xclywmobb1w!wzh(apbzc6l^u96p-7f5o91vpzro5%4'
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=['localhost', '127.0.0.1', '[::1]'], cast=list)
 
 
